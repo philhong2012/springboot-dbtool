@@ -3,6 +3,7 @@ package com.kouer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.concurrent.CountDownLatch;
@@ -37,7 +38,7 @@ public class DbConnectConcurrentRunner implements CommandLineRunner {
 
         String argThreadCount = getArgValue("threadCount",args);
 
-        String url = getArgValue("dburl",args);
+        String url = getArgValue("url",args);
 
         String user = getArgValue("user",args);
 
@@ -46,8 +47,18 @@ public class DbConnectConcurrentRunner implements CommandLineRunner {
         String type = getArgValue("type",args);
 
         if(StringUtils.isEmpty(type)) {
-            throw new IllegalArgumentException(String.format("数据库类型不可以为空"));
+            throw new IllegalArgumentException();
         }
+
+
+        Assert.hasText(type,"数据库类型不可以为空");
+        Assert.hasText(url,"数据库链接地址不能为空");
+        Assert.hasText(user,"用户名不能为空");
+        Assert.hasText(password,"密码不能为空");
+
+        configBean.setUrl(url);
+        configBean.setUser(user);
+        configBean.setPassword(password);
 
 
         if( argThreadCount!= null && !"".equals(argThreadCount)) {
