@@ -8,6 +8,10 @@ db tool
 参数
 -------------------
 * threadCount 连接线程数
+* url 数据库url
+* user 用户名
+* password 密码
+* type 数据库类型 （oracle，mysql）
 
 使用方法
 --------------------------
